@@ -1,0 +1,38 @@
+﻿<Window x:Class="ÖvningBindings.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ÖvningBindings"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListView Name="PersonListView" 
+                  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+                  SelectionChanged="PersonListView_SelectionChanged"> <!--Behöver en source-->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name"  Width="100"/> <!--Behöver få specificerat vilket värde som ska hämtas-->
+                    <GridViewColumn Header="Address"  Width="150"/>
+                    <GridViewColumn Header="Phone Number"  Width="100"/>
+                    <GridViewColumn Header="Email"  Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBox Name="SelectedCellTextBox" Grid.Column="0" Grid.Row="1" Width="180" Text="" Margin="10,10,10,0" VerticalAlignment="Top" /> <!--Behöver hämta namnet på den rad som är klickad-->
+
+        
+        <Button Content="Update Data" Grid.Column="1" Grid.Row="1" Height="20" Width="100" Click="UpdateDataButton_Click" Margin="10,10,10,0" VerticalAlignment="Top" Background="#FFA46262" />
+    </Grid>
+</Window>
