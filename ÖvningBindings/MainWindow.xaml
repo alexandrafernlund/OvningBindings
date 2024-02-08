@@ -2,8 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ÖvningBindings"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:övningbindings="clr-namespace:ÖvningBindings" d:DataContext="{d:DesignInstance Type=övningbindings:Person}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -17,22 +16,24 @@
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView Name="PersonListView" 
+        <ListView Name="PersonListView" ItemsSource="{Binding Persons}"
                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
-                  SelectionChanged="PersonListView_SelectionChanged"> <!--Behöver en source-->
+                  SelectionChanged="PersonListView_SelectionChanged">
+            <!--Behöver en source-->
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name"  Width="100"/> <!--Behöver få specificerat vilket värde som ska hämtas-->
-                    <GridViewColumn Header="Address"  Width="150"/>
-                    <GridViewColumn Header="Phone Number"  Width="100"/>
-                    <GridViewColumn Header="Email"  Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"  Width="100"/>
+                    <!--Behöver få specificerat vilket värde som ska hämtas-->
+                    <GridViewColumn DisplayMemberBinding="{Binding Address}" Header="Address"  Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PhoneNumber}" Header="Phone Number"  Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Email}" Header="Email"  Width="150"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <TextBox Name="SelectedCellTextBox" Grid.Column="0" Grid.Row="1" Width="180" Text="" Margin="10,10,10,0" VerticalAlignment="Top" /> <!--Behöver hämta namnet på den rad som är klickad-->
+        <TextBox Name="SelectedCellTextBox" Text="{Binding SelectedCellData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="1" Width="180" Margin="10,10,10,0" VerticalAlignment="Top"/>
+        <!--Behöver hämta namnet på den rad som är klickad-->
 
-        
         <Button Content="Update Data" Grid.Column="1" Grid.Row="1" Height="20" Width="100" Click="UpdateDataButton_Click" Margin="10,10,10,0" VerticalAlignment="Top" Background="#FFA46262" />
     </Grid>
 </Window>

@@ -19,15 +19,37 @@ namespace ÖvningBindings
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        
+
         public ObservableCollection<Person> Persons { get; set; } //Listan som du hämtar data ur till UI-elementet
-        
-        public string SelectedCellData { get; set; } //Lagrar namnet på raden som du har klickat på.
+
+        private string _selectedCellData;
+
+        public string SelectedCellData
+        {
+            get { return _selectedCellData; }
+            set
+            {
+                if (_selectedCellData != value)
+                {
+                    _selectedCellData = value;
+                    OnPropertyChanged(nameof(SelectedCellData));
+
+                    if (PersonListView.SelectedItem != null)
+                    {
+                        ((Person)PersonListView.SelectedItem).Name = value;
+                    }
+                }
+            }
+        }
+
+        //Lagrar namnet på raden som du har klickat på.
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+
+
 
             Persons = new ObservableCollection<Person>
             {
@@ -39,32 +61,39 @@ namespace ÖvningBindings
             };
         }
 
-        
+
         private void PersonListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (PersonListView.SelectedItem != null)
             {
+
+                SelectedCellData = ((Person)PersonListView.SelectedItem).Name;
+                OnPropertyChanged(nameof(SelectedCellData));
+
                 //Du behöver casta det du hämtar från Listviewen - till SelectedCellaData - till den klass du hämtar från (Person) så att du kommer åt dess properties.
 
                 //Du behöver också calla OnPropertyChanged för att UI ska uppdateras
             }
         }
 
-        
+
         private void UpdateDataButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             if (PersonListView.SelectedItem != null)
             {
+                Person selectedPerson = (Person)PersonListView.SelectedItem;
+                selectedPerson.Name = SelectedCellData;
+                OnPropertyChanged(nameof(Persons));
+
                 //Du behöver casta det du hämtar från Listviewen - till SelectedCellaData - till den klass du hämtar från (Person) så att du kommer åt dess properties.
                 //Kom ihåg att du ska tilldela ett värde här
-                
+
                 //Du behöver också calla OnPropertyChanged för att UI ska uppdateras
             }
         }
 
-        
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
